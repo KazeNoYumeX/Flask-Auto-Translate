@@ -1,0 +1,15 @@
+[Unit]
+Description=Flask_Auto_Translate
+
+[Service]
+WorkingDirectory=/opt/Flask_Auto_Translate
+User=root
+ExecStart=/opt/Flask_Auto_Translate/venv/bin/python3 /opt/Flask_Auto_Translate/Start_Flask_Auto_Translate.py
+Type=simple
+StartLimitBurst=5
+Restart=always
+RestartSec=10
+LimitNOFILE=4096
+LimitNPROC=4096
+[Install]
+WantedBy=multi-user.target
