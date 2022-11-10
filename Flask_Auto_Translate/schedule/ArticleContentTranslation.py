@@ -66,4 +66,5 @@ class ArticleContentTranslation:
         self.config = config
 
     def start(self):
+        logger.debug("Flask Auto Translate Mode: ArticleContent Start!")
         run(self.model, self.config)

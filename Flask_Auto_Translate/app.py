@@ -28,5 +28,5 @@ def load_mt():
 def initialize():
     mt = load_mt()
     app.logger.debug("Load finished")
-    app.logger.debug("Flask Auto Translate Mode: " + config['DEFAULT']["mode"] + " Start!")
+    app.logger.debug("Flask Auto Translate Start!")
     ScheduleManager.start(mt)

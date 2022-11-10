@@ -1,5 +1,5 @@
 import nltk
-
+import multiprocessing
 from Flask_Auto_Translate.config_loader import config
 from Flask_Auto_Translate.schedule.ArticleContentTranslation import ArticleContentTranslation
 from Flask_Auto_Translate.schedule.ArticleTitleTranslation import ArticleTitleTranslation
@@ -23,11 +23,25 @@ url_map = {
 }
 
 
+def trans_modes(i):
+    modes = ['ArticleContent', 'ArticleTitle', 'Post', 'Thread']
+    return modes[i]
+
+
 def start(model):
-    # Reset task status to idle
-    translation_mode = translation_map[config['DEFAULT']["mode"]](model, {
-        'interval': int(config['DEFAULT']['interval']),
-        'url': url_map[config['DEFAULT']['mode']],
-        'count': int(config['DEFAULT']['count'])
-    })
-    translation_mode.start()
+    process = 4
+    p_list = []
+
+    for i in range(process):
+        # Reset task status to idle
+        translation_mode = translation_map[trans_modes(i)](model, {
+            'interval': int(config['DEFAULT']['interval']),
+            'url': url_map[trans_modes(i)],
+            'count': int(config['DEFAULT']['count'])
+        })
+
+        p_list.append(multiprocessing.Process(target=translation_mode.start))
+        p_list[i].start()
+
+    for i in range(process):
+        p_list[i].join()

@@ -21,6 +21,7 @@ def translate_data(model, data):
     translated = []
     for article_title in data:
         translated.append({'aid': article_title['aid'],
+                           # Because the limit of discuz is to take only 250 chars
                            'title': text_title[article_title['aid']]['hindi_text'][:250],
                            'summary': summary_title[article_title['aid']]['hindi_text'][:250],
                            'is_title_translated': 1,
@@ -69,4 +70,5 @@ class ArticleTitleTranslation:
         self.config = config
 
     def start(self):
+        logger.debug("Flask Auto Translate Mode: ArticleTitle Start!")
         run(self.model, self.config)

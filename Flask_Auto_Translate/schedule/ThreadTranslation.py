@@ -18,7 +18,9 @@ def translate_data(model, data):
     threads = []
     for thread in data:
         threads.append(
-            {'tid': thread['tid'], 'subject': translation_map[thread['tid']]['hindi_text'], 'is_subject_translated': 1})
+            # Because the limit of discuz is to take only 250 chars
+            {'tid': thread['tid'], 'subject': translation_map[thread['tid']]['hindi_text'][:250],
+             'is_subject_translated': 1})
 
     return threads
 
@@ -63,4 +65,5 @@ class ThreadTranslation:
         self.config = config
 
     def start(self):
+        logger.debug("Flask Auto Translate Mode: Thread Start!")
         run(self.model, self.config)

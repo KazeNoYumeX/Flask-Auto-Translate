@@ -41,8 +41,3 @@ Requirements:
 ```
     model = m2m100 / mbart50
 ```
-
-### Translation mode
-```
-    mode = ArticleContent / ArticleTitle / Post / Thread
-```
